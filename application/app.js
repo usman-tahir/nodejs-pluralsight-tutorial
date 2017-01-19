@@ -2,12 +2,14 @@
 console.log('process.env.PORT: ' + process.env.PORT);
 var express = require('express'),
   app = express(),
+  handlebars = require('express-handlebars'),
   port = process.env.PORT || 5000;
 
 app.use(express.static('public'));
-// app.use(express.static('src/views'));
 app.set('views', './src/views');
-app.set('view engine', 'jade');
+
+app.engine('.hbs', handlebars({extname: '.hbs'}));
+app.set('view engine', '.hbs');
 
 app.get('/', function (request, response) {
   var sampleList = ['a', 'b', 'c'];
