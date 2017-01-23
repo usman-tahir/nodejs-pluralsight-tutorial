@@ -4,7 +4,51 @@ var express = require('express'),
   app = express(),
   handlebars = require('express-handlebars'),
   bookRoute = express.Router(),
-  port = process.env.PORT || 5000;
+  port = process.env.PORT || 5000,
+  books = [
+    {
+      title: 'Harry Potter and the Sorceror\'s Stone',
+      genre: 'Non-fiction',
+      author: 'J.K. Rowling',
+      read: false
+    },
+    {
+      title: 'Harry Potter and the Chamber of Secrets',
+      genre: 'Non-fiction',
+      author: 'J.K. Rowling',
+      read: false
+    },
+    {
+      title: 'Harry Potter and the Prisoner of Azkaban',
+      genre: 'Non-fiction',
+      author: 'J.K. Rowling',
+      read: false
+    },
+    {
+      title: 'Harry Potter and the Goblet of Fire',
+      genre: 'Non-fiction',
+      author: 'J.K. Rowling',
+      read: false
+    },
+    {
+      title: 'Harry Potter and the Order of the Phoenix',
+      genre: 'Non-fiction',
+      author: 'J.K. Rowling',
+      read: false
+    },
+    {
+      title: 'Harry Potter and the Half-Blood Prince',
+      genre: 'Non-fiction',
+      author: 'J.K. Rowling',
+      read: false
+    },
+    {
+      title: 'Harry Potter and the Deathly Hallows',
+      genre: 'Non-fiction',
+      author: 'J.K. Rowling',
+      read: false
+    },
+  ];
 
 app.use(express.static('public'));
 app.set('views', './src/views');
@@ -13,12 +57,17 @@ app.set('view engine', 'ejs');
 
 bookRoute.route('/')
   .get(function(request, response) {
-    response.send('Book Directory');
+    response.render('books', {title: 'Books', navigation: [
+      {Link: '/Books', Text: 'Books'},
+      {Link: '/Authors', Text: 'Authors'}
+    ],
+    books: books
+    });
   });
 
 bookRoute.route('/single')
   .get(function(request, response) {
-    response.send("Single book");
+    response.send('Single book');
   });
 app.use('/Books', bookRoute);
 
