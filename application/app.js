@@ -3,7 +3,8 @@ console.log('process.env.PORT: ' + process.env.PORT);
 var express = require('express'),
   app = express(),
   handlebars = require('express-handlebars'),
-  bookRoute = require('./src/routes/bookRoutes'),
+  nav = [{Link: '/Books', Text: 'Books'}, {Link: '/Authors', Text: 'Authors'}],
+  bookRoute = require('./src/routes/bookRoutes')(nav),
   port = process.env.PORT || 5000;
   
 app.use(express.static('public'));

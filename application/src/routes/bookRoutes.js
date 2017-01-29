@@ -1,7 +1,8 @@
 
 var express = require('express'),
   bookRoute = express.Router(),
-  books = [
+  router = function (nav) {
+    var books = [
     {
       title: 'Harry Potter and the Sorceror\'s Stone',
       genre: 'Non-fiction',
@@ -45,26 +46,23 @@ var express = require('express'),
       read: false
     },
   ];
+    bookRoute.route('/')
+      .get(function(request, response) {
+        response.render('bookListView', {
+          title: 'Books', 
+          navigation: nav, 
+          books: books
+        });
+      });
 
-bookRoute.route('/')
-  .get(function(request, response) {
-    response.render('bookListView', {title: 'Books', navigation: [
-      {Link: '/Books', Text: 'Books'},
-      {Link: '/Authors', Text: 'Authors'}
-    ],
-    books: books
-    });
-  });
+    bookRoute.route('/:id')
+      .get(function(request, response) {
+        var id = request.params.id;
+        response.render('bookView', {title: 'Books', navigation: nav, book: books[id]
+        });
+      });
+    
+    return bookRoute;
+  }
 
-bookRoute.route('/:id')
-  .get(function(request, response) {
-    var id = request.params.id;
-    response.render('bookView', {title: 'Books', navigation: [
-      {Link: '/Books', Text: 'Books'},
-      {Link: '/Authors', Text: 'Authors'}
-    ],
-    book: books[id]
-    });
-  });
-
-module.exports = bookRoute;
+module.exports = router;
